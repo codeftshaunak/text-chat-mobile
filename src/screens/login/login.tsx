@@ -77,12 +77,12 @@ const LoginScreen: React.FC = () => {
                         <View style={styles.divider} />
                     </View>
                     <CustomButton
-                        title="Sign in with Google"
-                        onPress={handleGoogleSignIn}
-                        style={styles.googleButton}
-                        textStyle={styles.googleButtonText}
-                        iconName="google"
+                        title="Login with Google"
+                        onPress={() => { /* Handle login */ }}
+                        iconSource={require('../../assets/icons/google.png')}
+                        googleButton={styles.googleButton}
                     />
+
 
                     {loading && <ActivityIndicator size="large" color="#0086FF" />}
                 </View>
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     dividerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 20,
+        marginVertical: 5,
     },
     divider: {
         flex: 1,
@@ -151,12 +151,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#ccc',
     },
     dividerText: {
-        marginHorizontal: 10,
+        marginHorizontal: 5,
         fontSize: 16,
         color: '#888',
     },
     googleButton: {
-        backgroundColor: '#DB4437',
+        backgroundColor: '#000',
+        borderColor: '#eB4437',
     },
     googleButtonText: {
         fontSize: 18,

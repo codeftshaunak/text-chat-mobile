@@ -1,19 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Image, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
 
 interface CustomButtonProps {
     title: string;
     onPress: () => void;
     style?: ViewStyle;
     textStyle?: TextStyle;
-    iconName?: string; // Add this prop for icons
+    iconSource?: any; // Type can be `any` because it's dynamic\\
+    googleButton?: any,
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ title, onPress, style, textStyle, iconName }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ title, onPress, style, textStyle, iconSource, googleButton }) => {
     return (
-        <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
-            {iconName && <Icon name={iconName} size={20} color="#fff" style={styles.icon} />}
+        <TouchableOpacity style={[styles.button, style, googleButton]} onPress={onPress}>
+            {iconSource && <Image source={iconSource} style={[styles.icon]} />}
             <Text style={[styles.buttonText, textStyle]}>{title}</Text>
         </TouchableOpacity>
     );
@@ -28,7 +28,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginVertical: 10,
-        cursor: 'pointer'
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'row'
     },
     buttonText: {
         color: '#fff',
@@ -37,6 +39,8 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 10,
+        width: 20,
+        height: 20
     },
 });
 
