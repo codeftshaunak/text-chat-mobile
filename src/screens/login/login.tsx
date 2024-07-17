@@ -78,7 +78,7 @@ const LoginScreen: React.FC = () => {
                     </View>
                     <CustomButton
                         title="Login with Google"
-                        onPress={() => { /* Handle login */ }}
+                        onPress={handleGoogleSignIn}
                         iconSource={require('../../assets/icons/google.png')}
                         googleButton={styles.googleButton}
                     />
