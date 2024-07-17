@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, TextStyle, View, ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
+import Login from './src/screens/login/login';
 
 // Define types for props if needed
 interface AppProps {
@@ -12,20 +13,13 @@ const App: React.FC<AppProps> = () => {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  };
-
-  // Define a style for the text using the TextStyle type
-  const textStyle: TextStyle = {
-    fontSize: 30,
-    textAlign: 'center',
-    fontWeight: 800,
-    color: '#0E7ADF',
+    backgroundColor: '#0E233D',
+    width: '100%',
   };
 
   return (
     <View style={containerStyle}>
-      <Text style={textStyle}>Welcome to Community Launch App</Text>
+      <Login />
     </View>
   );
 };
