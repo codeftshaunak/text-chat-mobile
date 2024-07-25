@@ -32,7 +32,7 @@ interface SignInData {
     // Add other properties as needed
 }
 
-export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -56,6 +56,9 @@ export const AuthContextProvider: FC<AuthProviderProps> = ({ children }) => {
                 },
                 body: JSON.stringify(data),
             });
+
+            console.log(response);
+
             // Add your sign-in logic here
             // For example, make an API request to sign in the user
             // and update the state variables accordingly

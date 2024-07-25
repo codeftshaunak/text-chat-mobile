@@ -39,7 +39,7 @@
     "metro-react-native-babel-preset": "^0.77.0",
     "react-native-dotenv": "^3.4.11",
     "react-test-renderer": "18.2.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.5.4"
   },
   "engines": {
     "node": ">=18"
