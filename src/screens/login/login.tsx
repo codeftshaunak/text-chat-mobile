@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
     ActivityIndicator,
     Alert,
@@ -11,29 +10,35 @@ import {
     View
 } from 'react-native';
 import CustomButton from '../../components/button';
+import { useAuth } from "../../context/auth-context/auth-provide"; // Ensure the correct path
 
 const LoginScreen: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const { signIn } = useAuth(); // Use the useAuth hook here
 
     const handleGoogleSignIn = () => {
         Alert.alert('Google Sign-In', 'Google sign-in is not implemented yet.');
     };
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (!email || !password) {
             Alert.alert('Validation Error', 'Please enter both email and password.');
             return;
         }
+
         setLoading(true);
 
-        // Simulate a login process
-        setTimeout(() => {
-            setLoading(false);
+        try {
+            await signIn({ identifier: email, password });
             Alert.alert('Login Successful', 'You have successfully logged in!');
             // Navigate to the next screen or perform other actions here
-        }, 2000);
+        } catch (error) {
+            Alert.alert('Login Failed', 'An error occurred during login.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -64,13 +69,6 @@ const LoginScreen: React.FC = () => {
                     />
 
                     <Text style={styles.forget}>Forget Password?</Text>
-                    {/* <View style={styles.buttonContainer}>
-                        <Button
-                            title="Login"
-                            onPress={handleLogin}
-                            accessibilityLabel="Login Button"
-                        />
-                    </View> */}
                     <CustomButton onPress={handleLogin} title='Login' />
                     <View style={styles.dividerContainer}>
                         <View style={styles.divider} />
@@ -84,7 +82,6 @@ const LoginScreen: React.FC = () => {
                         googleButton={styles.googleButton}
                     />
 
-
                     {loading && <ActivityIndicator size="large" color="#0086FF" />}
                 </View>
             </View>
@@ -97,7 +94,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        // backgroundColor: '#f5f5f5', // Added a light background color for better contrast
     },
     inner: {
         paddingVertical: 20,
@@ -107,18 +103,18 @@ const styles = StyleSheet.create({
         elevation: 3,
         width: '98%',
         margin: 'auto',
-        maxWidth: 400, // Added maxWidth for better responsiveness
+        maxWidth: 400,
     },
     innerPre: {
         width: '100%',
-        maxWidth: 400, // Added maxWidth for better responsiveness
+        maxWidth: 400,
     },
     header: {
         height: 30,
-        width: 200,  // Set width and height explicitly
-        resizeMode: 'contain', // Ensure the image scales properly
+        width: 200,
+        resizeMode: 'contain',
         marginBottom: 20,
-        alignSelf: 'center', // Center the image horizontally
+        alignSelf: 'center',
     },
     textInput: {
         height: 40,
@@ -129,7 +125,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     buttonContainer: {
-        marginVertical: 20, // Add some spacing around the button
+        marginVertical: 20,
     },
     forget: {
         fontWeight: 'bold',
