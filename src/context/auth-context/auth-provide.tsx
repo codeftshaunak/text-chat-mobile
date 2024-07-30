@@ -1,19 +1,15 @@
-import React, { createContext, FC, ReactNode, useCallback, useState } from "react";
+import React, { createContext, FC, ReactNode, useCallback, useContext, useState } from "react";
 import envConfig from "../../config/env.config";
 
 interface User {
-    // Define the properties of the User object
     id: string;
     name: string;
     email: string;
-    // Add other properties as needed
 }
 
 interface Profile {
-    // Define the properties of the Profile object
     bio: string;
     avatar: string;
-    // Add other properties as needed
 }
 
 interface AuthContextProps {
@@ -21,15 +17,14 @@ interface AuthContextProps {
     onboarded: boolean;
     isAuthenticated: boolean;
     user: User | undefined;
-    profile: Profile | undefined;
+    // profile: Profile | undefined;
     token: string | undefined;
     signIn: (data: SignInData) => Promise<void>;
 }
 
 interface SignInData {
-    email: string;
+    identifier: string;
     password: string;
-    // Add other properties as needed
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -43,10 +38,10 @@ export const AuthContextProvider: FC<AuthProviderProps> = ({ children }) => {
     const [onboarded, setOnboarded] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState<User | undefined>(undefined);
-    const [profile, setProfile] = useState<Profile | undefined>(undefined);
+    // const [profile, setProfile] = useState<Profile | undefined>(undefined);
     const [token, setToken] = useState<string | undefined>(undefined);
 
-    const signIn = useCallback(async (data: SignInData) => {
+    const signIn = useCallback(async (data: SignInData): Promise<void> => {
         setLoading(true);
         try {
             const response = await fetch(`${envConfig.BACKEND_API}/auth/local`, {
@@ -56,22 +51,11 @@ export const AuthContextProvider: FC<AuthProviderProps> = ({ children }) => {
                 },
                 body: JSON.stringify(data),
             });
-
-            console.log(response);
-
-            // Add your sign-in logic here
-            // For example, make an API request to sign in the user
-            // and update the state variables accordingly
-
-            // Example:
-            // const response = await api.signIn(data);
-            // setUser(response.user);
-            // setProfile(response.profile);
-            // setToken(response.token);
-            // setIsAuthenticated(true);
-            // setOnboarded(response.onboarded);
+            const result = await response.json();
+            setUser(result.profile);
+            setToken(result.jwt);
+            setIsAuthenticated(true);
         } catch (error) {
-            // Handle the error here
             console.error(error);
         } finally {
             setLoading(false);
@@ -85,7 +69,7 @@ export const AuthContextProvider: FC<AuthProviderProps> = ({ children }) => {
                 onboarded,
                 isAuthenticated,
                 user,
-                profile,
+                // profile,
                 token,
                 signIn,
             }}
@@ -93,4 +77,12 @@ export const AuthContextProvider: FC<AuthProviderProps> = ({ children }) => {
             {children}
         </AuthContext.Provider>
     );
+};
+
+export const useAuth = (): AuthContextProps => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
 };
