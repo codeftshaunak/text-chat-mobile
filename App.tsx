@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
-import Login from './src/screens/login/login';
-
+import { AuthContextProvider } from './src/context/auth-context/auth-provide';
+import LoginScreen from './src/screens/login/login';
 
 // Define types for props if needed
 interface AppProps {
-  title: string;
+  title?: string;
 }
 
 const App: React.FC<AppProps> = () => {
@@ -19,9 +19,11 @@ const App: React.FC<AppProps> = () => {
   };
 
   return (
-    <View style={containerStyle}>
-      <Login />
-    </View>
+    <AuthContextProvider>
+      <View style={containerStyle}>
+        <LoginScreen />
+      </View>
+    </AuthContextProvider>
   );
 };
 

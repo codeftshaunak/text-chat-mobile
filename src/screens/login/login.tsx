@@ -27,6 +27,7 @@ const LoginScreen: React.FC = () => {
             return;
         }
         setLoading(true);
+
         // Simulate a login process
         setTimeout(() => {
             setLoading(false);
